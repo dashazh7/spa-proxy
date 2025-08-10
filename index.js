@@ -1,7 +1,6 @@
 const express = require('express')
 const axios = require('axios')
 const cors = require('cors')
-const path = require('path')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -16,7 +15,7 @@ const forwardRequest = (endpoint) => async (req, res) => {
     const { data } = await axios.get(`${API_BASE_URL}/${endpoint}`, {
       params: {
         ...req.query,
-        key: API_KEY,
+        key: API_KEY, 
       },
     })
     res.json(data)
@@ -33,12 +32,6 @@ app.get('/api/incomes', forwardRequest('incomes'))
 app.get('/api/orders', forwardRequest('orders'))
 app.get('/api/sales', forwardRequest('sales'))
 app.get('/api/stocks', forwardRequest('stocks'))
-
-app.use(express.static(path.join(__dirname, 'dist')))
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`)
